@@ -1,13 +1,19 @@
 <template>
   <div class="container">
     <input class="search-bar" type="text" placeholder="Search or Add" />
+    <TrashIcon />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import TrashIcon from '../../assets/trash.svg';
+
 export default defineComponent({
   name: 'Home',
+  components: {
+    TrashIcon,
+  },
   setup() {
     // Setup
   },
@@ -55,5 +61,11 @@ body {
     color: #adb5bd;
     margin-right: 20px;
   }
+}
+
+img {
+  background-image: url('/assets/trash.svg');
+  height: 20px;
+  width: 20px;
 }
 </style>

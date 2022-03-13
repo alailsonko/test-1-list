@@ -46,10 +46,16 @@ module.exports = {
       .use('url-loader')
       .loader('url-loader')
       .tap((options) => Object.assign(options, { limit: 1024 }));
-    // Support svg manipulation from css via https://github.com/JetBrains/svg-mixer/tree/master/packages/svg-transform-loader
+
     config.module
       .rule('svg')
-      .use('svg-transform-loader')
-      .loader('svg-transform-loader');
+      .uses.clear()
+      .end()
+      .use('vue-loader-v16')
+      .loader('vue-loader-v16')
+      .end()
+      .use('./vue-svg-loader')
+      .loader('./vue-svg-loader')
+      .end();
   },
 };
