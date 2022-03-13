@@ -26,6 +26,7 @@ body {
 </style>
 
 <style lang="scss" scoped>
+@use 'sass/color';
 .container {
   display: flex;
   justify-content: center;
@@ -33,15 +34,26 @@ body {
   height: 100%;
 }
 .search-bar {
+  font: normal normal normal 14px/19px Open Sans;
   margin-top: 100px;
+  text-indent: 20px;
   width: 800px;
   height: 60px;
   background: #f1f3f5;
   border-radius: 6px 6px 6px 6px;
   border-width: 0;
   outline: none;
+  font-size: 14px;
+  text-align: left;
+  color: color.$text;
   &:focus {
     background: #f1f3f5;
+  }
+  &::placeholder {
+    font-size: 14px;
+    text-align: left;
+    color: #adb5bd;
+    margin-right: 20px;
   }
 }
 </style>
