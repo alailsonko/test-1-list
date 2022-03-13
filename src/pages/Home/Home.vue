@@ -1,21 +1,16 @@
 <template>
-  <div>
-    <RouterLink to="/" />
-  </div>
-  <RouterView />
+  <div>hello from home</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
 export default defineComponent({
-  name: 'App',
+  name: 'Home',
   setup() {
     // Setup
   },
 });
 </script>
+>
 
-<style lang="scss" module>
-// Style
-</style>
+<style lang="scss"></style>
