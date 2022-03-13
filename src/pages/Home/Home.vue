@@ -1,5 +1,7 @@
 <template>
-  <div>hello from home</div>
+  <div class="container">
+    <input class="search-bar" type="text" placeholder="Search or Add" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -20,5 +22,26 @@ body {
     padding-box;
   opacity: 1;
   height: 100vh;
+}
+</style>
+
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.search-bar {
+  margin-top: 100px;
+  width: 800px;
+  height: 60px;
+  background: #f1f3f5;
+  border-radius: 6px 6px 6px 6px;
+  border-width: 0;
+  outline: none;
+  &:focus {
+    background: #f1f3f5;
+  }
 }
 </style>
