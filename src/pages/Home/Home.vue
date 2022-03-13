@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <input class="search-bar" type="text" placeholder="Search or Add" />
-    <TrashIcon />
+    <TrashIcon class="trash-icon" />
   </div>
 </template>
 
@@ -62,10 +62,7 @@ body {
     margin-right: 20px;
   }
 }
-
-img {
-  background-image: url('/assets/trash.svg');
-  height: 20px;
-  width: 20px;
+.trash-icon {
+  color: #fa5252;
 }
 </style>
