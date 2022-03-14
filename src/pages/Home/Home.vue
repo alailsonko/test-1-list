@@ -1,28 +1,19 @@
 <template>
   <div class="container-home">
-    <SearchBar />
+    <SearchBar
+      :todo-text="todoText"
+      @handle-on-change-event="handleOnChangeEvent"
+      @handle-clear-input-event="handleClearInputEvent"
+      @handle-on-click-event="handleOnClickEvent" />
     <div class="container-list">
-      <div class="wrapper-list-item">
-        <div>
-          <p class="title-list">hello</p>
-          <p class="id-text-list">#1</p>
-        </div>
-        <p class="timestamp-text-list">2 minutes ago</p>
-      </div>
-      <div class="wrapper-list-item">
-        <div>
-          <p class="title-list">hello</p>
-          <p class="id-text-list">#2</p>
-        </div>
-        <p class="timestamp-text-list">2 minutes ago</p>
-      </div>
-      <div class="wrapper-list-item">
-        <div>
-          <p class="title-list">hello</p>
-          <p class="id-text-list">#3</p>
-        </div>
-        <p class="timestamp-text-list">2 minutes ago</p>
-      </div>
+      <ListItem
+        v-for="(item, index) in itemsList"
+        :id="item.id"
+        :key="item.id"
+        :title="item.title"
+        :timestamp="item.timestamp"
+        :index="index"
+        :item-list="itemsList" />
     </div>
   </div>
 </template>
@@ -30,14 +21,56 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SearchBar from '../../components/SearchBar/SearchBar.vue';
+import ListItem from '../../components/ListItem/ListItem.vue';
 
 export default defineComponent({
   name: 'Home',
   components: {
     SearchBar,
+    ListItem,
   },
   setup() {
-    // Setup
+    const itemsList = [
+      {
+        title: 'hello',
+        id: 1,
+        timestamp: '2 minutes ago',
+      },
+      {
+        title: 'hello',
+        id: 2,
+        timestamp: '3 minutes ago',
+      },
+      {
+        title: 'hello',
+        id: 3,
+        timestamp: '5 minutes ago',
+      },
+    ];
+    return {
+      itemsList,
+    };
+  },
+  data() {
+    return {
+      todoText: 'props',
+    };
+  },
+  methods: {
+    handleOnChangeEvent(e: any) {
+      this.todoText = e.target.value;
+    },
+    handleOnClickEvent() {
+      this.itemsList.push({
+        title: this.todoText,
+        id: this.itemsList.length + 1,
+        timestamp: 'now',
+      });
+      this.todoText = '';
+    },
+    handleClearInputEvent(value: any) {
+      this.todoText = value;
+    },
   },
 });
 </script>
@@ -62,45 +95,7 @@ body {
   align-items: center;
   height: 100%;
 }
-
-.wrapper-list-item {
-  width: 800px;
-  height: 60px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background: #ffffff00 0% 0% no-repeat padding-box;
-  border-radius: 6px;
-  opacity: 1;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-top: 1px;
-}
-
 .container-list {
   margin-top: 10px;
-}
-
-.title-list {
-  text-align: left;
-  font: normal normal normal 14px/19px Open Sans;
-  letter-spacing: 0px;
-  color: #212529;
-  opacity: 1;
-}
-.id-text-list {
-  text-align: left;
-  font: normal normal normal 12px/17px Open Sans;
-  letter-spacing: 0px;
-  color: #868e96;
-  opacity: 1;
-}
-.timestamp-text-list {
-  text-align: right;
-  font: normal normal normal 13px/18px Open Sans;
-  letter-spacing: 0px;
-  color: #212529;
-  opacity: 1;
 }
 </style>

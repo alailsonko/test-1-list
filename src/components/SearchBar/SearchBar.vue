@@ -1,11 +1,11 @@
 <template>
   <div class="container-search-bar">
     <input
-      v-model="todoText"
       :onfocus="onFocusEvent"
       :onblur="onBlurEvent"
       class="search-bar"
       type="text"
+      :value="todoText"
       placeholder="Search or Add"
       @input="handleOnChange" />
     <button
@@ -18,9 +18,10 @@
       <CancelIcon v-if="isSearchBarocused" class="" />
     </button>
     <button
-      :onfocus="handleClearInput"
+      :onfocus="handleAddOnClick"
       :onblur="onBlurEvent"
-      class="button add-icon">
+      class="button add-icon"
+      @click="handleAddOnClick">
       <AddIcon v-if="isSearchBarocused" class="" />
     </button>
   </div>
@@ -37,13 +38,23 @@ export default defineComponent({
     CancelIcon,
     AddIcon,
   },
+  props: {
+    todoText: {
+      type: String,
+      default: '',
+    },
+  },
+  emits: [
+    'handle-on-change-event',
+    'handle-clear-input-event',
+    'handle-on-click-event',
+  ],
   setup() {
     // Setup
   },
   data() {
     return {
       isSearchBarocused: false,
-      todoText: '',
     };
   },
   methods: {
@@ -54,13 +65,15 @@ export default defineComponent({
       this.isSearchBarocused = false;
     },
     handleOnChange(e: any) {
-      this.todoText = e.target.value;
-      console.log(e.target.value);
+      this.$emit('handle-on-change-event', e);
+    },
+    handleAddOnClick() {
+      this.isSearchBarocused = true;
+      this.$emit('handle-on-click-event', this.todoText);
     },
     handleClearInput() {
       this.isSearchBarocused = true;
-      this.todoText = '';
-      console.log('clear');
+      this.$emit('handle-clear-input-event', '');
     },
   },
 });
