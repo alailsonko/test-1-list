@@ -12,6 +12,8 @@
       class="button cancel-icon"
       :onfocus="handleClearInput"
       :onblur="onBlurEvent"
+      tabindex="0"
+      @keydown.esc="handleClearInput"
       @click="handleClearInput">
       <CancelIcon v-if="isSearchBarocused" class="" />
     </button>
