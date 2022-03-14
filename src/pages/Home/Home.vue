@@ -1,19 +1,27 @@
 <template>
-  <div class="container-home">
-    <SearchBar
-      :todo-text="todoText"
-      @handle-on-change-event="handleOnChangeEvent"
-      @handle-clear-input-event="handleClearInputEvent"
-      @handle-on-click-event="handleOnClickEvent" />
-    <div class="container-list">
-      <ListItem
-        v-for="(item, index) in itemsList"
-        :id="item.id"
-        :key="item.id"
-        :title="item.title"
-        :timestamp="item.timestamp"
-        :index="index"
-        :item-list="itemsList" />
+  <div class="container">
+    <div class="container-home">
+      <SearchBar
+        :todo-text="todoText"
+        @handle-on-change-event="handleOnChangeSearchBarEvent"
+        @handle-clear-input-event="handleClearInputSearchBarEvent"
+        @handle-on-click-event="handleOnClickSearchBarEvent" />
+      <div class="container-list">
+        <ListItem
+          v-for="(item, index) in itemsList"
+          :id="item.id"
+          :key="item.id"
+          :is-exact-match="isExactMatch"
+          :title="item.title"
+          :timestamp="item.timestamp"
+          :index="index"
+          :item-list="itemsList"
+          @handle-on-delete-item-list="handleDeleteItemListEvent" />
+      </div>
+    </div>
+    <div class="wrapper-sort-options">
+      <button class="button-sort">Sort by Value</button>
+      <button class="button-sort">Sort by Added Date</button>
     </div>
   </div>
 </template>
@@ -22,6 +30,7 @@
 import { defineComponent } from 'vue';
 import SearchBar from '../../components/SearchBar/SearchBar.vue';
 import ListItem from '../../components/ListItem/ListItem.vue';
+import { localStorage } from '../../services/localStorage';
 
 export default defineComponent({
   name: 'Home',
@@ -30,23 +39,12 @@ export default defineComponent({
     ListItem,
   },
   setup() {
-    const itemsList = [
-      {
-        title: 'hello',
-        id: 1,
-        timestamp: '2 minutes ago',
-      },
-      {
-        title: 'hello',
-        id: 2,
-        timestamp: '3 minutes ago',
-      },
-      {
-        title: 'hello',
-        id: 3,
-        timestamp: '5 minutes ago',
-      },
-    ];
+    let itemsList;
+    itemsList = localStorage.getTodo() || [];
+    if (itemsList.length === 0) {
+      localStorage.setItem('todo-list', JSON.stringify([]));
+      itemsList = localStorage.getTodo() || [];
+    }
     return {
       itemsList,
     };
@@ -54,22 +52,34 @@ export default defineComponent({
   data() {
     return {
       todoText: 'props',
+      isLoading: true,
+      isExactMatch: '',
     };
   },
   methods: {
-    handleOnChangeEvent(e: any) {
+    handleOnChangeSearchBarEvent(e: any) {
       this.todoText = e.target.value;
+      this.isExactMatch = e.target.value;
     },
-    handleOnClickEvent() {
-      this.itemsList.push({
+    handleOnClickSearchBarEvent() {
+      const newTodo = {
         title: this.todoText,
-        id: this.itemsList.length + 1,
-        timestamp: 'now',
-      });
-      this.todoText = '';
+        id: this.itemsList.length,
+        timestamp: new Date(),
+      };
+      this.itemsList.push(newTodo);
+      localStorage.addNewTodo(newTodo);
+      this.$forceUpdate();
     },
-    handleClearInputEvent(value: any) {
+    handleClearInputSearchBarEvent(value: any) {
       this.todoText = value;
+    },
+    handleDeleteItemListEvent(value: any) {
+      this.itemsList = this.itemsList.filter(
+        (item: any) => item.id !== value.id
+      );
+      localStorage.deleteById(value.id);
+      this.$forceUpdate();
     },
   },
 });
@@ -97,5 +107,26 @@ body {
 }
 .container-list {
   margin-top: 10px;
+}
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.wrapper-sort-options {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+.button-sort {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 1;
+  border-width: 0;
+  cursor: pointer;
+  width: 200px;
+  height: 40px;
 }
 </style>
