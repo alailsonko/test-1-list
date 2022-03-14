@@ -23,8 +23,7 @@ const localStorage = {
     if (todoString) {
       const sortedOption = localStorage.getItem('sorted') || '';
       const parsedTodos = JSON.parse(todoString);
-      const parsedSort = JSON.parse(sortedOption);
-      switch (parsedSort) {
+      switch (sortedOption) {
         case 'sort-by-added-date':
           return parsedTodos.sort((a: TodoType, b: TodoType) => {
             if (a.timestamp < b.timestamp) {
