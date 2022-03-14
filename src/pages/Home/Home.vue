@@ -20,11 +20,24 @@
       </div>
     </div>
     <div class="wrapper-sort-options">
-      <button class="button-sort" @click="handleSortByValue">
+      <button
+        :class="[
+          defaultSortedBy === 'sort-by-value' ? 'button-sort' : 'transparent',
+        ]"
+        class="button-sort"
+        @click="handleSortByValue">
         <span class="sort-by-text">Sort by</span> Value
       </button>
-      <button class="button-sort" @click="handleSortByAddedDate">
-        <span class="sort-by-text">Sort by</span> Added Date
+      <button
+        :class="[
+          defaultSortedBy === 'sort-by-added-date'
+            ? 'button-sort'
+            : 'transparent',
+        ]"
+        class="button-sort"
+        @click="handleSortByAddedDate">
+        <span class="sort-by-text">Sort by</span>
+        Added Date
       </button>
     </div>
   </div>
@@ -58,7 +71,11 @@ export default defineComponent({
       todoText: '',
       isLoading: true,
       isExactMatch: '',
+      defaultSortedBy: '',
     };
+  },
+  beforeMount() {
+    this.defaultSortedBy = localStorage.getItem('sorted') || '';
   },
   methods: {
     sortStrategy() {
@@ -86,6 +103,7 @@ export default defineComponent({
         }
         return 0;
       });
+      this.defaultSortedBy = 'sort-by-value';
       localStorage.setItem('sorted', JSON.stringify('sort-by-value'));
       this.$forceUpdate();
     },
@@ -100,6 +118,7 @@ export default defineComponent({
         }
         return 0;
       });
+      this.defaultSortedBy = 'sort-by-added-date';
       localStorage.setItem('sorted', JSON.stringify('sort-by-added-date'));
       this.$forceUpdate();
     },
@@ -178,6 +197,10 @@ body {
   margin-bottom: 2px;
   padding-left: 15px;
   text-align: start;
+}
+
+.transparent {
+  background: transparent;
 }
 
 .sort-by-text {
