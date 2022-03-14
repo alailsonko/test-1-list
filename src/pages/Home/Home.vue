@@ -21,10 +21,10 @@
     </div>
     <div class="wrapper-sort-options">
       <button class="button-sort" @click="handleSortByValue">
-        Sort by Value
+        <span class="sort-by-text">Sort by</span> Value
       </button>
       <button class="button-sort" @click="handleSortByAddedDate">
-        Sort by Added Date
+        <span class="sort-by-text">Sort by</span> Added Date
       </button>
     </div>
   </div>
@@ -168,12 +168,22 @@ body {
   align-self: center;
 }
 .button-sort {
-  background: #ffffff 0% 0% no-repeat padding-box;
+  background: color.$white 0% 0% no-repeat padding-box;
   border-radius: 6px;
   opacity: 1;
   border-width: 0;
   cursor: pointer;
   width: 200px;
   height: 40px;
+  margin-bottom: 2px;
+  padding-left: 15px;
+  text-align: start;
+}
+
+.sort-by-text {
+  text-align: left;
+  font: normal normal normal 13px/18px Open Sans;
+  letter-spacing: 0px;
+  color: #868e96;
 }
 </style>
