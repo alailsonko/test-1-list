@@ -1,20 +1,23 @@
 <template>
   <div class="container-search-bar">
     <input
-      :onfocus="OnFocusEvent"
-      :onblur="OnBlurEvent"
+      v-model="todoText"
+      :onfocus="onFocusEvent"
+      :onblur="onBlurEvent"
       class="search-bar"
       type="text"
-      placeholder="Search or Add" />
+      placeholder="Search or Add"
+      @input="handleOnChange" />
     <button
-      :onfocus="OnFocusEvent"
-      :onblur="OnBlurEvent"
-      class="button cancel-icon">
+      class="button cancel-icon"
+      :onfocus="handleClearInput"
+      :onblur="onBlurEvent"
+      @click="handleClearInput">
       <CancelIcon v-if="isSearchBarocused" class="" />
     </button>
     <button
-      :onfocus="OnFocusEvent"
-      :onblur="OnBlurEvent"
+      :onfocus="handleClearInput"
+      :onblur="onBlurEvent"
       class="button add-icon">
       <AddIcon v-if="isSearchBarocused" class="" />
     </button>
@@ -42,11 +45,20 @@ export default defineComponent({
     };
   },
   methods: {
-    OnFocusEvent() {
+    onFocusEvent() {
       this.isSearchBarocused = true;
     },
-    OnBlurEvent() {
+    onBlurEvent() {
       this.isSearchBarocused = false;
+    },
+    handleOnChange(e: any) {
+      this.todoText = e.target.value;
+      console.log(e.target.value);
+    },
+    handleClearInput() {
+      this.isSearchBarocused = true;
+      this.todoText = '';
+      console.log('clear');
     },
   },
 });
