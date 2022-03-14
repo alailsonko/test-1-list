@@ -20,8 +20,12 @@
       </div>
     </div>
     <div class="wrapper-sort-options">
-      <button class="button-sort">Sort by Value</button>
-      <button class="button-sort">Sort by Added Date</button>
+      <button class="button-sort" @click="handleSortByValue">
+        Sort by Value
+      </button>
+      <button class="button-sort" @click="handleSortByAddedDate">
+        Sort by Added Date
+      </button>
     </div>
   </div>
 </template>
@@ -51,12 +55,54 @@ export default defineComponent({
   },
   data() {
     return {
-      todoText: 'props',
+      todoText: '',
       isLoading: true,
       isExactMatch: '',
     };
   },
   methods: {
+    sortStrategy() {
+      const sortedOption = localStorage.getItem('sorted');
+      if (sortedOption) {
+        switch (sortedOption) {
+          case 'sort-by-value':
+            this.handleSortByValue();
+            break;
+          case 'sort-by-added-date':
+            this.handleSortByAddedDate();
+            break;
+          default:
+            break;
+        }
+      }
+    },
+    handleSortByValue() {
+      this.itemsList.sort((a, b) => {
+        if (a.title < b.title) {
+          return -1;
+        }
+        if (a.title > b.title) {
+          return 1;
+        }
+        return 0;
+      });
+      localStorage.setItem('sorted', JSON.stringify('sort-by-value'));
+      this.$forceUpdate();
+    },
+    handleSortByAddedDate() {
+      // sort by added date
+      this.itemsList.sort((a, b) => {
+        if (a.timestamp < b.timestamp) {
+          return -1;
+        }
+        if (a.timestamp > b.timestamp) {
+          return 1;
+        }
+        return 0;
+      });
+      localStorage.setItem('sorted', JSON.stringify('sort-by-added-date'));
+      this.$forceUpdate();
+    },
     handleOnChangeSearchBarEvent(e: any) {
       this.todoText = e.target.value;
       this.isExactMatch = e.target.value;
@@ -69,6 +115,7 @@ export default defineComponent({
       };
       this.itemsList.push(newTodo);
       localStorage.addNewTodo(newTodo);
+
       this.$forceUpdate();
     },
     handleClearInputSearchBarEvent(value: any) {

@@ -1,4 +1,4 @@
-type TodoType = {
+export type TodoType = {
   timestamp: Date;
   id: number;
   title: string;
@@ -21,7 +21,34 @@ const localStorage = {
     const todoString = this.getItem('todo-list');
 
     if (todoString) {
-      return JSON.parse(todoString);
+      const sortedOption = localStorage.getItem('sorted') || '';
+      const parsedTodos = JSON.parse(todoString);
+      const parsedSort = JSON.parse(sortedOption);
+      switch (parsedSort) {
+        case 'sort-by-added-date':
+          return parsedTodos.sort((a: TodoType, b: TodoType) => {
+            if (a.timestamp < b.timestamp) {
+              return -1;
+            }
+            if (a.timestamp > b.timestamp) {
+              return 1;
+            }
+            return 0;
+          });
+        case 'sort-by-value':
+          return parsedTodos.sort((a: TodoType, b: TodoType) => {
+            if (a.title < b.title) {
+              return -1;
+            }
+            if (a.title > b.title) {
+              return 1;
+            }
+
+            return 0;
+          });
+        default:
+          return parsedTodos;
+      }
     }
 
     return null;

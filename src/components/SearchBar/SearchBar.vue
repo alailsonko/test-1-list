@@ -7,6 +7,8 @@
       type="text"
       :value="todoText"
       placeholder="Search or Add"
+      @keypress.enter="handleAddOnClick"
+      @keypress.esc="handleClearInput"
       @input="handleOnChange" />
     <button
       class="button cancel-icon"

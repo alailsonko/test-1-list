@@ -88,11 +88,9 @@ export default defineComponent({
   methods: {
     handleContainerOnMouseOver() {
       this.isMouseOverItemList = true;
-      console.log('handleContainerOnMouseOver', this.id);
     },
     handleContainerOnMouseLeave() {
       this.isMouseOverItemList = false;
-      console.log('handleContainerOnMouseLeave', this.id);
     },
     handleOnDeleteItemList() {
       this.$emit('handle-on-delete-item-list', {
