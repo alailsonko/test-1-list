@@ -148,9 +148,9 @@ body {
 .container-home {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+  // justify-content: center;
+  // align-items: center;
+  // height: 100%;
 }
 .container-list {
   margin-top: 10px;
@@ -159,13 +159,13 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-  height: 100%;
+  height: 70vh;
 }
 .wrapper-sort-options {
   display: flex;
   flex-direction: column;
   margin-left: 20px;
+  align-self: center;
 }
 .button-sort {
   background: #ffffff 0% 0% no-repeat padding-box;
